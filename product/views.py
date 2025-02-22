@@ -145,6 +145,11 @@ def delete_review(request, pk):
         try:
             review = models.Review.objects.get(product=product, user=request.user)
             review.delete()
+
+            rating = models.Review.objects.filter(product=product).aggregate(avg_ratings = Avg('rating'))   
+            if rating['avg_ratings'] is None:
+                product.rating = 0
+                product.save()
             return Response({"Message: " : "Your Review about this product has been deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
         except ObjectDoesNotExist:
             return Response({"Message: " : "You didn't review this product before!"}, status=status.HTTP_404_NOT_FOUND)

@@ -1,7 +1,9 @@
 from django.contrib.auth.models import BaseUserManager, AbstractUser
 from django.db import models
+from django.dispatch import receiver
 from django.utils.timezone import now, timedelta
 from django.conf import settings
+from django.db.models.signals import post_save
 
 
 
@@ -37,10 +39,17 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['username']
 
     def __str__(self):
-        return self.email
+        return f"{self.username} - {self.email}"
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    address = models.CharField(max_length=500, null=True, blank=True)
+    phone_number = models.CharField(max_length=11, null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True)  # Example field
 
+    def __str__(self):
+        return self.user.username
 
 
 class OTP(models.Model):

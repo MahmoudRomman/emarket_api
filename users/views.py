@@ -109,7 +109,7 @@ def request_otp(request):
                 models.OTP.objects.create(
                     user=user,
                     otp=otp,
-                    expires_at=now() + timedelta(minutes=10)  # OTP valid for 10 minutes
+                    expires_at=now() + timedelta(minutes=15)  # OTP valid for 10 minutes
                 )
 
                 subject = "Your Login OTP"
@@ -240,8 +240,8 @@ def password_reset_confirm(request, uidb64, token):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated]) 
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated]) 
 def password_change(request):
     user = request.user
     if 'current_password' in request.data and 'new_password' in request.data:
