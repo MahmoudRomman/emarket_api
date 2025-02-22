@@ -9,5 +9,5 @@ class ProductFilter(django_filters.FilterSet):
     maxprice = django_filters.filters.NumberFilter(field_name='price' or 100000, lookup_expr='lte')
 
     class Meta:
-        model = models.Product
+        model = models.Item
         fields = ['category', 'brand', 'keyword', 'minprice', 'maxprice']

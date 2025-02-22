@@ -4,13 +4,13 @@ from . import models
 
 
 
-class ProductSerializers(serializers.ModelSerializer):
+class ItemSerializers(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)  # Customize datetime format
     updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     reviews = serializers.SerializerMethodField(method_name='get_reviews', read_only=True)
     class Meta:
-        model = models.Product
-        fields = ['name', 'description', 'price', 'brand', 'category', 'rating', 'reviews', 'stock', 'created_at', 'updated_at']
+        model = models.Item
+        fields = ['name', 'description', 'price', 'brand', 'category', 'rating', 'reviews', 'quantity', 'created_at', 'updated_at']
         # fields = '__all__'
 
     def get_reviews(self, obj):
